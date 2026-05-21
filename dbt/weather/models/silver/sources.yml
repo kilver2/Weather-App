@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: bronze
+    catalog: "{{ env_var('DATABRICKS_CATALOG') }}"
+    schema: bronze
+    tables:
+      - name: raw_forecast
+      - name: raw_air_quality
+      - name: raw_historical

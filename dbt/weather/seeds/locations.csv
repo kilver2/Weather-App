@@ -1,0 +1,5 @@
+location_id,name,lat,lon,country,timezone
+amsterdam,Amsterdam,52.37,4.89,Netherlands,Europe/Amsterdam
+london,London,51.51,-0.13,United Kingdom,Europe/London
+berlin,Berlin,52.52,13.40,Germany,Europe/Berlin
+new_york,New York,40.71,-74.01,United States,America/New_York
