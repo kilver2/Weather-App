@@ -11,5 +11,6 @@ select
     year(date_day) as year,
     month(date_day) as month,
     dayofweek(date_day) as day_of_week,
-    case when dayofweek(date_day) in (1,7) then true else false end as is_weekend
+    coalesce(dayofweek(date_day) in (1, 7), false)
+        as is_weekend
 from date_spine
