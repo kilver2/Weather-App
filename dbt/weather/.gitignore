@@ -1,0 +1,6 @@
+dbt/weather/profiles.yml
+dbt/weather/dbt_packages/
+dbt/weather/target/
+target/
+dbt_packages/
+logs/
