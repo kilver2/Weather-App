@@ -1,0 +1,6 @@
+apache-airflow-providers-databricks
+openmeteo-requests
+pandas
+requests
+dbt-core
+dbt-databricks
