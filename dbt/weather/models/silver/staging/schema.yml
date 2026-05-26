@@ -1,0 +1,65 @@
+version: 2
+
+
+models:
+  - name: stg_air_quality
+    columns:
+      - name: air_quality_sk
+        data_tests:
+          - unique
+          - not_null
+
+      - name: pm10
+        data_tests:
+           - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0  
+              max_value: 500
+
+      - name: pm2_5
+        data_tests:
+           - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0  
+              max_value: 500
+           - no_negative
+          
+      - name: location_id
+        data_tests:
+          - relationships:
+              to: ref('dim_location')
+              field: location_id
+
+    
+  - name: stg_forecast
+    columns:
+      - name: forecast_sk
+        data_tests:
+          - unique
+          - not_null
+
+      - name: temperature_2m
+        data_tests:
+           - dbt_expectations.expect_column_values_to_be_between:
+              min_value: -70  
+              max_value: 60
+      
+      - name: location_id
+        data_tests:
+          - relationships:
+              to: ref('dim_location')
+              field: location_id
+
+  
+  - name: stg_historical
+    columns:
+      - name: historical_sk
+        data_tests:
+          - unique
+          - not_null
+
+      - name: location_id
+        data_tests:
+         - not_null
+         - relationships:
+            to: ref('dim_location')
+            field: location_id
+
