@@ -11,7 +11,7 @@ with air_quality as (
     
     from
         {{ source('bronze', 'raw_air_quality') }}
-)
+),
 
 ranked_air_quality as(
     select

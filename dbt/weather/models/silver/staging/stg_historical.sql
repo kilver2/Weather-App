@@ -6,11 +6,11 @@ with historical as (
         cast(precipitation_sum as double) as precipitation_sum,
         cast(windspeed_10m_max as double) as windspeed_10m_max,
         cast(ingested_at as timestamp) as ingested_at,
-        cast(`date` as date) as 'date',
+        cast(`date` as date) as `date`,
         {{dbt_utils.generate_surrogate_key(['location_id', 'date']) }} as historical_sk
     from
         {{ source('bronze', 'raw_historical') }}
-)
+),
 
 ranked_historical as(
     select
