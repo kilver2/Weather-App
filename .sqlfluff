@@ -7,7 +7,7 @@ runaway_limit = 10
 max_line_length = 120
 
 [sqlfluff:templater:dbt]
-project_dir = .
-profiles_dir = .
+project_dir = dbt/weather
+profiles_dir = dbt/weather
 profile = weather
 target = dev
