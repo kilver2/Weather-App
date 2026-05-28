@@ -7,6 +7,7 @@ import pandas as pd
 
 
 
+
 def run_ingest_air_quality():
     client = OpenMeteoClient()
     air_qualities = []
