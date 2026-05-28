@@ -3,7 +3,7 @@
 with locations as (
     select
         cast(location_id as string) as location_id,
-        cast(name as string) as name,
+        cast(name as string) as location_name,
         cast(lat as double) as lat,
         cast(lon as double) as lon,
         cast(country as string) as country,

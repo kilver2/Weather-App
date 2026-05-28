@@ -15,8 +15,8 @@ with date_spine as (
 
 select
     date_day,
-    year(date_day) as year,
-    month(date_day) as month,
+    year(date_day) as year_number,
+    month(date_day) as month_number,
     dayofweek(date_day) as day_of_week,
     coalesce(dayofweek(date_day) in (1, 7), false)
         as is_weekend

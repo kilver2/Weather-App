@@ -17,7 +17,7 @@ models:
                     to: ref('dim_location')
                     field: location_id
             
-        - name: date
+        - name: date_day
           data_tests:
             - not_null
             - relationships:
