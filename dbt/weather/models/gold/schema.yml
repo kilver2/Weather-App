@@ -1,0 +1,34 @@
+version: 2
+
+models:
+
+    - name: fct_daily_weather
+      columns:
+        - name: daily_weather_sk
+          data_tests:
+            - unique
+            - not_null
+        
+        - name: location_id
+          data_tests:
+            - not_null
+            - relationships:
+                arguments:
+                    to: ref('dim_location')
+                    field: location_id
+            
+        - name: date
+          data_tests:
+            - not_null
+            - relationships:
+                arguments:
+                    to: ref('dim_date')
+                    field: date_day
+
+        - name: average_temperature
+          data_tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: -50
+                max_value: 50
+
+

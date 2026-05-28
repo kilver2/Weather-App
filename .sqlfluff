@@ -4,7 +4,7 @@ dialect = sparksql
 runaway_limit = 10
 
 [sqlfluff:templater:dbt]
-project_dir = .
-profiles_dir = .
+project_dir = dbt/weather
+profiles_dir = dbt/weather
 profile = weather
 target = dev

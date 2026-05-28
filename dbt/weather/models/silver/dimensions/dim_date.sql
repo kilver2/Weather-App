@@ -1,9 +1,16 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key='date_day'
+    )
+}}
+
 with date_spine as (
     {{ dbt_utils.date_spine(
         datepart="day",
         start_date="cast('2020-01-01' as date)",
-        end_date="cast(current_date as date)"
-    ) }}
+        end_date="cast(dateadd(year, 1, current_date) as date)"
+    )}}
 )
 
 select

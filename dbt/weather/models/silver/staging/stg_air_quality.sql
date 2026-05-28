@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key='air_quality_sk'
+    )
+}}
+
 with air_quality as (
     select  
         location_id,
@@ -11,7 +18,7 @@ with air_quality as (
     
     from
         {{ source('bronze', 'raw_air_quality') }}
-)
+),
 
 ranked_air_quality as(
     select

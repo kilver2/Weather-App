@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key='forecast_sk'
+    )
+}}
+
 with forecast as (
     select
         location_id,
