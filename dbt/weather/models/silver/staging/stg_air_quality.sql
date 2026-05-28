@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key='air_quality_sk'
+    )
+}}
+
 with air_quality as (
     select  
         location_id,

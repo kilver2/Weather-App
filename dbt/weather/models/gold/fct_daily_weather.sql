@@ -15,7 +15,7 @@ with daily_weather as (
 daily_air_quality as(
     select
         location_id,
-        cast(forecast_time as date) as `date`,
+        cast(measured_at as date) as `date`,
         avg(pm10) as average_pm10,
         avg(pm2_5) as average_pm2_5,
         avg(ozone) as average_ozone,
@@ -23,7 +23,7 @@ daily_air_quality as(
     from {{ ref('stg_air_quality') }}
     group by
         location_id,
-        cast(forecast_time as date)
+        cast(measured_at as date)
 ),
 
 all_data_historical as (
@@ -42,34 +42,34 @@ all_data_historical as (
             historical.precipitation_sum,
             historical.windspeed_10m_max
     from 
-        {{ ref('stg_historical') }} as historical
-    left join daily_weather on historical.location_id = daily_weather.location_id and 
-                                historical.date = daily_weather.date
-    left join daily_air_quality on historical.location_id = daily_air_quality.location_id and
-                                    historical.date = daily_air_quality.date
+        daily_weather
+    left join daily_air_quality on daily_weather.location_id = daily_air_quality.location_id and
+                                    daily_weather.date = daily_air_quality.date
+    left join {{ ref('stg_historical') }} as historical on daily_weather.location_id = historical.location_id and
+                                    daily_weather.date = historical.date
 ),
 
 all_data_historical_location_date as (
-    select all_data_historical.location_id,
-            all_data_historical.date,
-            all_data_historical.average_temperature,
-            all_data_historical.average_humidity,
-            all_data_historical.average_windspeed,
-            all_data_historical.sum_precipitation,
-            all_data_historical.average_pm10,
-            all_data_historical.average_pm2_5,
-            all_data_historical.average_ozone,
-            all_data_historical.average_nitrogen_dioxide,
-            all_data_historical.temperature_2m_max,
-            all_data_historical.temperature_2m_min,
-            all_data_historical.precipitation_sum,
-            all_data_historical.windspeed_10m_max,
-            {{dbt_utils.generate_surrogate_key(['all_data_historical.location_id', 'all_data_historical.date'])}} as daily_weather_sk
+    select historical_all.location_id,
+            historical_all.date,
+            historical_all.average_temperature,
+            historical_all.average_humidity,
+            historical_all.average_windspeed,
+            historical_all.sum_precipitation,
+            historical_all.average_pm10,
+            historical_all.average_pm2_5,
+            historical_all.average_ozone,
+            historical_all.average_nitrogen_dioxide,
+            historical_all.temperature_2m_max,
+            historical_all.temperature_2m_min,
+            historical_all.precipitation_sum,
+            historical_all.windspeed_10m_max,
+            {{ dbt_utils.generate_surrogate_key(['historical_all.location_id', 'historical_all.date']) }} as daily_weather_sk
         
     from 
         all_data_historical as historical_all
-    left join {{ref('dim_location')}} as dim_location on historical_all.location_id = dim_location.location_id
-    left join {{ref('dim_date')}} as dim_date on historical_all.date = dim_date.date
+    left join {{ ref('dim_location') }} as dim_location on historical_all.location_id = dim_location.location_id
+    left join {{ ref('dim_date') }} as dim_date on historical_all.date = dim_date.date_day
 )
 
 select *

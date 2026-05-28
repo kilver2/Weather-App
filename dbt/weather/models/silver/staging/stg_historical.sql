@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='table',
+        unique_key='historical_sk'
+    )
+}}
+
 with historical as (
     select
         location_id,
