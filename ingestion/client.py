@@ -2,13 +2,15 @@ import requests
 from typing import Any
 
 BASE_URL = "https://api.open-meteo.com/v1"
+AIR_QUALITY_URL = "https://air-quality-api.open-meteo.com/v1"
 
 class OpenMeteoClient:
     def __init__(self):
         self.session = requests.Session()
 
-    def _get(self, endpoint: str, params: dict) -> dict[str, Any]:
-        response = self.session.get(f"{BASE_URL}/{endpoint}", params=params)
+    def _get(self, endpoint: str, params: dict, base_url: str = None) -> dict[str, Any]:
+        url = base_url or BASE_URL
+        response = self.session.get(f"{url}/{endpoint}", params=params)
         response.raise_for_status()
         return response.json()
 
@@ -27,7 +29,7 @@ class OpenMeteoClient:
             "longitude": lon,
             "hourly": "pm10,pm2_5,ozone,nitrogen_dioxide",
             "timezone": timezone,
-        })
+        }, base_url=AIR_QUALITY_URL)
 
     def get_historical(self, lat: float, lon: float, timezone: str, start: str, end: str) -> dict:
         return self._get("archive", {
