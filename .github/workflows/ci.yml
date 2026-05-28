@@ -22,12 +22,12 @@ jobs:
         run: pip install dbt-core dbt-databricks sqlfluff sqlfluff-templater-dbt
 
       - name: Lint SQL
-        env:
-        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
-        DATABRICKS_CATALOG: ${{ secrets.DATABRICKS_CATALOG }}
-        ENV: dev
+            env:
+            DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+            DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+            DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+            DATABRICKS_CATALOG: ${{ secrets.DATABRICKS_CATALOG }}
+            ENV: dev
         run: sqlfluff lint dbt/weather/models
 
       - name: Compile dbt
