@@ -28,6 +28,7 @@ with DAG(
 ):
     
     env={
+     **os.environ,
     "DATABRICKS_HOST": os.environ.get("DATABRICKS_HOST"),
     "DATABRICKS_TOKEN": os.environ.get("DATABRICKS_TOKEN"),
     "DATABRICKS_HTTP_PATH": os.environ.get("DATABRICKS_HTTP_PATH"),
@@ -73,6 +74,13 @@ with DAG(
             timeout=60 * 60,
             mode="reschedule"
     )
+
+
+    dbt_seed = BashOperator(
+                            task_id="dbt_seed",
+                            bash_command="dbt seed --project-dir /opt/airflow/dbt/weather --profiles-dir /opt/airflow/dbt/weather",
+                            env=env
+    )
     
     dbt_run_silver_task = BashOperator(
                             task_id="dbt_run_silver",
@@ -100,4 +108,4 @@ with DAG(
 
     
     
-    check_api_alive >> [ingest_air_quality, ingest_forecast] >> check_databricks_data >> dbt_run_silver_task >> dbt_test_silver_task >> dbt_run_gold_task >> dbt_test_gold_task
+    check_api_alive >> [ingest_air_quality, ingest_forecast] >> check_databricks_data >> dbt_seed >> dbt_run_silver_task >> dbt_test_silver_task >> dbt_run_gold_task >> dbt_test_gold_task

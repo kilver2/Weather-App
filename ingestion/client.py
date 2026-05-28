@@ -3,6 +3,7 @@ from typing import Any
 
 BASE_URL = "https://api.open-meteo.com/v1"
 AIR_QUALITY_URL = "https://air-quality-api.open-meteo.com/v1"
+HISTORICAL_URL = "https://archive-api.open-meteo.com/v1"
 
 class OpenMeteoClient:
     def __init__(self):
@@ -39,4 +40,4 @@ class OpenMeteoClient:
             "timezone": timezone,
             "start_date": start,
             "end_date": end,
-        })
+        }, base_url=HISTORICAL_URL)

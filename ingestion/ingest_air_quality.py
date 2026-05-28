@@ -15,6 +15,10 @@ def run_ingest_air_quality():
         raw = client.get_air_quality(location['lat'], location['lon'], location['timezone'])
         df = parse_air_quality(raw, location['id'])
         air_qualities.append(df)
-        
+    
+    
     all_air_qualities = pd.concat(air_qualities)
+    all_air_qualities = all_air_qualities.drop_duplicates(
+        subset=['location_id', 'measured_at']
+    )
     append_to_delta(all_air_qualities, f"{BRONZE}.raw_air_quality")
