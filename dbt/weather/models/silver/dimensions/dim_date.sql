@@ -10,7 +10,7 @@ with date_spine as (
         datepart="day",
         start_date="cast('2020-01-01' as date)",
         end_date="cast(dateadd(year, 1, current_date) as date)"
-    )}}
+    ) }}
 )
 
 select
